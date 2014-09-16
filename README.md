@@ -1,4 +1,3 @@
-ianmorgan.github.io
-===================
+The www.handmadedata.com website
 
-For publising jeykyll
+built using Jekyll 
