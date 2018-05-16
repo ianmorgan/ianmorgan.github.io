@@ -1,1 +1,2 @@
-git push origin master 
+#!/bin/bash
+git push origin master
