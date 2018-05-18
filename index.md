@@ -8,4 +8,6 @@ layout: home
 Dig around to view links to tech things I've cared about, worried about or just been annoyed by. 
 
 
-[Mircoserices](./content/mircoservices)
+* [Mircoserices link 1](./content/mircoservices)
+* [Mircoserices link 2](content/microservices
+* [Mircoserices link 3](/content/microservices)
