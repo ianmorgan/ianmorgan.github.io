@@ -5,4 +5,7 @@
 layout: home
 ---
 
-Here is some content 
+Dig around to view links to tech things I've cared about, worried about or just been annoyed by. 
+
+
+(Mircoserices)[/content/mircoservices] 
