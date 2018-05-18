@@ -17,77 +17,88 @@ Monads come from Category Theory. Categories are just containers with a set of c
                     that should be true for all types and values. Of course formally proving they work for anything may be
                     difficult, but in the real world we can normally rely upon intuition and common sense to decide what
                     is good category. A list is a classic example.
+```scala
+scala > val names = List("John", "Paul", "Ringo", "George")
+names: List[java.lang.String] = List(John, Paul, Ringo, George)
 
-                <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span> <span class="o">&gt;</span> <span class="k">val</span> <span class="n">names</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="s">&quot;John&quot;</span><span class="o">,</span> <span class="s">&quot;Paul&quot;</span><span class="o">,</span> <span class="s">&quot;Ringo&quot;</span><span class="o">,</span> <span class="s">&quot;George&quot;</span><span class="o">)</span>
-<span class="n">names</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">java.lang.String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">John</span><span class="o">,</span> <span class="nc">Paul</span><span class="o">,</span> <span class="nc">Ringo</span><span class="o">,</span> <span class="nc">George</span><span class="o">)</span>
+scala> names.size
+res0: Int = 4
+```                    
 
-<span class="n">scala</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">.</span><span class="n">size</span>
-<span class="n">res0</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">4</span></code></pre></div>
+## Step 2 - Changing data in our container
 
-                <h2 id="step-2---changing-data-in-our-container">Step 2 - Changing data in our container</h2>
+Our containers are values, and so are their content. That is they are immutable and so they can’t be changed directly. And so
+to manipulate them we need to create a new container based on the old ones. Converting from one value to another
+                    is a pure function:
 
-                <p>Our containers are values, that is they are immutable and so they can’t be changed directly. And so
-                    to manipulate them we need to create a new container based on the old ones. Converting from one value to another
-                    is a pure function:</p>
-
-                <pre>
+<pre>
 f: X -&gt; Y
 </pre>
 
-                <p>The container needs to provide its clients a way to pass in the function. In Scala this is by
-                    convention called the <code>map</code> method. </p>
+The container needs to provide its clients a way to pass in the function. In Scala this is by
+                    convention called the <code>map</code> method.
 
-                <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">toUpperCase</span><span class="o">)</span>
-<span class="n">res1</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">java.lang.String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">JOHN</span><span class="o">,</span> <span class="nc">PAUL</span><span class="o">,</span> <span class="nc">RINGO</span><span class="o">,</span> <span class="nc">GEORGE</span><span class="o">)</span></code></pre></div>
+```scala
+scala> names.map(_.toUpperCase)
+res1: List[java.lang.String] = List(JOHN, PAUL, RINGO, GEORGE)
+```
 
-                <h2 id="step-3---composing-small-changes-together">Step 3 - Composing small changes together</h2>
+## Step 3 - Composing small changes together
 
-                <p>Pure functions will compose in a repeatable way, so that a more complex function can be built. </p>
+Pure functions will compose in a repeatable way, so that a more complex function can be built.
 
-                <pre>
+<pre>
 f: X -&gt; Y
 g: Y -&gt; Z
 </pre>
 
-                <p>is the same as </p>
+is the same as:
 
-                <pre>
+<pre>
 h: X -&gt; Z
 </pre>
 
-                <p>Which can also be drawn something like:</p>
+Which can also be drawn something like:
 
-                <p><img src="http://upload.wikimedia.org/wikipedia/commons/1/1a/MorphismComposition-01.png" /></p>
+<p><img src="http://upload.wikimedia.org/wikipedia/commons/1/1a/MorphismComposition-01.png" /></p>
+<div class="footnote">
+     <a href="http://commons.wikimedia.org/wiki/File:Commutative_diagram_for_morphism.svg#mediaviewer/File:Commutative_diagram_for_morphism.svg">Commutative diagram for morphism</a>" by <a href="//commons.wikimedia.org/wiki/User:Cepheus" title="User:Cepheus">User:Cepheus</a> - Own work, based on <a href="//en.wikipedia.org/wiki/Image:MorphismComposition-01.png" class="extiw" title="en:Image:MorphismComposition-01.png">en:Image:MorphismComposition-01.png</a>. Licensed under Public domain via <a href="//commons.wikimedia.org/wiki/">Wikimedia Commons</a>.
+</div>
 
-                <div class="footnote">
-                    <a href="http://commons.wikimedia.org/wiki/File:Commutative_diagram_for_morphism.svg#mediaviewer/File:Commutative_diagram_for_morphism.svg">Commutative diagram for morphism</a>" by <a href="//commons.wikimedia.org/wiki/User:Cepheus" title="User:Cepheus">User:Cepheus</a> - Own work, based on <a href="//en.wikipedia.org/wiki/Image:MorphismComposition-01.png" class="extiw" title="en:Image:MorphismComposition-01.png">en:Image:MorphismComposition-01.png</a>. Licensed under Public domain via <a href="//commons.wikimedia.org/wiki/">Wikimedia Commons</a>.
-                </div>
+The same is true of the map method. They may be chained together.
 
-                <p>The same is true of the map method. They may be chained together.</p>
+```scala
+scala> names.map(_.toUpperCase).map(_.reverse)
+res2: List[String] = List(NHOJ, LUAP, OGNIR, EGROEG)
+```
 
-                <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">toUpperCase</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">reverse</span><span class="o">)</span>
-<span class="n">res2</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">NHOJ</span><span class="o">,</span> <span class="nc">LUAP</span><span class="o">,</span> <span class="nc">OGNIR</span><span class="o">,</span> <span class="nc">EGROEG</span><span class="o">)</span></code></pre></div>
+## Step 4 - What happens if my function creates a new type of container (aka category)
 
-                <h2 id="step-4---what-happens-if-my-function-creates-a-new-category">Step 4 - What happens if my function creates a new category</h2>
+So far we have used functions that just return simple types. But what if the function returned something
+                    more complex?
 
-                <p>So far we have used functions that just return simple types. But what if the function returned something
-                    more complex?</p>
+```scala
+scala> val names = List("John L","Paul M")
+names.map(_.split(" "))
+res3: List[Array[java.lang.String]] = List(Array(John, L), Array(Paul, M)
+```
 
-                <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">names</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="s">&quot;John L&quot;</span><span class="o">,</span><span class="s">&quot;Paul M&quot;</span><span class="o">)</span>
-<span class="n">names</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">split</span><span class="o">(</span><span class="s">&quot; &quot;</span><span class="o">))</span>
-<span class="n">res3</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Array</span><span class="o">[</span><span class="kt">java.lang.String</span><span class="o">]]</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="nc">John</span><span class="o">,</span> <span class="n">L</span><span class="o">),</span> <span class="nc">Array</span><span class="o">(</span><span class="nc">Paul</span><span class="o">,</span> <span class="n">M</span><span class="o">)</span></code></pre></div>
+So this returns a list of lists, which is a new type of container
 
-                <p>So this returns a list of lists. </p>
+To make it simpler, it can be 'flattened' out into one list
 
-                <p>To make it simpler, it can be flattened out into one list</p>
+```scala
+scala> names.map(_.split(" ")).flatten
+res4: List[java.lang.String] = List(John, L, Paul, M)
+```
 
-                <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">split</span><span class="o">(</span><span class="s">&quot; &quot;</span><span class="o">)).</span><span class="n">flatten</span>
-<span class="n">res4</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">java.lang.String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">John</span><span class="o">,</span> <span class="n">L</span><span class="o">,</span> <span class="nc">Paul</span><span class="o">,</span> <span class="n">M</span><span class="o">)</span></code></pre></div>
+This is such a common pattern it can be combined into a single method, <code> flatMap </code>
 
-                <p>This is such a common pattern it can be combined into a single method, <code> flatMap </code></p>
+```scala
+scala> names.flatMap(_.split(" "))
+res5: List[java.lang.String] = List(John, L, Paul, M)
+```
 
-                <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">split</span><span class="o">(</span><span class="s">&quot; &quot;</span><span class="o">))</span>
-<span class="n">res5</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">java.lang.String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">John</span><span class="o">,</span> <span class="n">L</span><span class="o">,</span> <span class="nc">Paul</span><span class="o">,</span> <span class="n">M</span><span class="o">)</span></code></pre></div>
 
                 <h2 id="step-5-that-was-a-monad-so-whats-special-about-it">Step 5: That was a monad, so whats special about it?</h2>
 
