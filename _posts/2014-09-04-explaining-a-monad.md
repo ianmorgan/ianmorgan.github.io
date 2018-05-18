@@ -2,7 +2,6 @@
 layout: post
 title:  "Explaining a Monad"
 date:   2014-09-04 16:16:01 +0000
-categories: jekyll update
 ---
                 
 # Explaining a monad in 10 steps
@@ -100,57 +99,66 @@ res5: List[java.lang.String] = List(John, L, Paul, M)
 ```
 
 
-                <h2 id="step-5-that-was-a-monad-so-whats-special-about-it">Step 5: That was a monad, so whats special about it?</h2>
+## Step 5: That was a monad, so whats special about it?
 
-                <p>So, <code>flatMap</code> is fact a monad. The name is a little arbitrary. In Haskell its called bind, which is the name used in
-                    category theory. The clever thing is thats its joined two containers into. In this example its two lists
+So, <code>flatMap</code> is fact a monad. The name is a little arbitrary. In Haskell its called bind, which is the name used in
+                    category theory. The clever thing is that its joined two containers into. In this example its two lists
                     and they are simply concatenated (flattened) together. Strictly speaking only <code>flatMap</code> must be defined as
                     <code>map</code> is really just a special case of flatMap with a single value. But for ease of use both are usually provided.</p>
 
-                <p>There are two really useful things here.</p>
+There are two really useful things here.
 
-                <p>Firstly, cardinality (does the function return zero, one or multiple values)
+Firstly, cardinality (does the function return zero, one or multiple values)
                     becomes much less important which make designs more flexible. A similarity is joins in SQL, the syntax stays the same
                     regardless as to how many joins exist. In fact, the traditional imperative style of a variable for a single value,
-                    a null for something that doesn’t exist and a container that must be manually unpacked for multiple values is often
-                    unnecessarily cumbersome. </p>
-
-                <p>Secondly many common problems can be modelled as a Category (aka container) with common behaviours. These include (using Scala’s names) <code>Option</code>
+                    a null for something that doesn't exist and a container that must be manually unpacked for multiple values is often
+                    unnecessarily cumbersome
+                    
+Secondly many common problems can be modelled as a Category (aka container) with common behaviours. These include (using Scala’s names) <code>Option</code>
                     (holder for value that may be null) , a <code>Try</code> (holder for a computation that may have resulted in an exception)
-                    and <code>Future</code> (holder for result of an asynchronous computation)</p>
+                    and <code>Future</code> (holder for result of an asynchronous computation)
 
-                <h2 id="step-6-using-an-option-monad">Step 6: Using an Option monad</h2>
+## Step 6: Using an Option monad
 
-                <p>In Scala (and Java 8) the Option can be used to wrap a result that may be null, for example it could not be found in the database.
+In Scala (and Java 8) the Option can be used to wrap a result that may be null, for example it could not be found in the database.
                     Option has methods to read the value and so on. It also provides <code>map</code> and <code>flatMap</code>. So in a suitably trivial example,
-                    we might have a function that returns user names from a database:</p>
+                    we might have a function that returns user names from a database:
 
-                <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">findName</span> <span class="o">(</span><span class="n">id</span><span class="k">:</span><span class="kt">Integer</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">id</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;John&quot;</span><span class="o">)</span> <span class="k">else</span> <span class="nc">None</span>
-<span class="n">res6</span><span class="k">:</span> <span class="kt">findName:</span> <span class="o">(</span><span class="kt">id:</span> <span class="kt">Integer</span><span class="o">)</span><span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span></code></pre></div>
+```scala
+scala> def findName (id:Integer) : Option[String] = if (id == 1) Some("John") else None
+res6: findName: (id: Integer)Option[String]
+```
+              
+and another to get an address if we know the name
 
-                <p>and another to get an address if we know the name</p>
+```scala
+scala> def findAddress (name:String) : Option[String] = if (name.equals("John")) Some("Liverpool") else None
+res7: findAddress: (name: String)Option[String]
+```
 
-                <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">findAddress</span> <span class="o">(</span><span class="n">name</span><span class="k">:</span><span class="kt">String</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">name</span><span class="o">.</span><span class="n">equals</span><span class="o">(</span><span class="s">&quot;John&quot;</span><span class="o">))</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;Liverpool&quot;</span><span class="o">)</span> <span class="k">else</span> <span class="nc">None</span>
-<span class="n">res7</span><span class="k">:</span> <span class="kt">findAddress:</span> <span class="o">(</span><span class="kt">name:</span> <span class="kt">String</span><span class="o">)</span><span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span></code></pre></div>
+             
+These can now be safely chained together without worrying about null pointers.
 
-                <p>These can now be safely chained together without worrying about null pointers</p>
+```scala
+scala> findName(1).map(findAddress(_))
+res8: Option[Option[String]] = Some(Some(Liverpool))
+scala> findName(2).map(findAddress(_))
+res9: Option[Option[String]] = None
+```             
 
-                <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="n">findName</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">findAddress</span><span class="o">(</span><span class="k">_</span><span class="o">))</span>
-<span class="n">res8</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]]</span> <span class="k">=</span> <span class="nc">Some</span><span class="o">(</span><span class="nc">Some</span><span class="o">(</span><span class="nc">Liverpool</span><span class="o">))</span>
-<span class="n">scala</span><span class="o">&gt;</span> <span class="n">findName</span><span class="o">(</span><span class="mi">2</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">findAddress</span><span class="o">(</span><span class="k">_</span><span class="o">))</span>
-<span class="n">res9</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]]</span> <span class="k">=</span> <span class="nc">None</span></code></pre></div>
-
-                <p>And <code>flatMap</code> will get rid the Option of Option complexity. The logic here is simple. If the container
+And <code>flatMap</code> will get rid the Option of Option complexity. The logic here is simple. If the container
                     (i.e. the instance the flatMap is called on) is None, then
                     it must be a None. If not, the function is applied and its result returned.</p>
 
-                <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="n">findName</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="n bold">flatMap</span><span class="o">(</span><span class="n">findAddress</span><span class="o">(</span><span class="k">_</span><span class="o">))</span>
-<span class="n">res8</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Some</span><span class="o">(</span><span class="nc">Liverpool</span><span class="o">)</span>
-<span class="n">scala</span><span class="o">&gt;</span> <span class="n">findName</span><span class="o">(</span><span class="mi">2</span><span class="o">).</span><span class="n bold">flatMap</span><span class="o">(</span><span class="n">findAddress</span><span class="o">(</span><span class="k">_</span><span class="o">))</span>
-<span class="n">res9</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">None</span></code></pre></div>
+```scala
+scala> findName(1).flatMap(findAddress(_))
+res8: Option[String] = Some(Liverpool)
+scala> findName(2).flatMap(findAddress(_))
+res9: Option[String] = None
+```
 
-                <p>Of course in this little example the effect seems a bit contrived but hopefully the benefit in more complex real world
+Of course in this little example the effect seems a bit contrived but hopefully the benefit in more complex real world
                     scenario is clear. In Scala the <code>Option</code> type has a number of other useful tricks, one of which is to be
                     able to think of itself as a collection with either one value or empty. <a href="http://danielwestheide.com/blog/2012/12/19/the-neophytes-guide-to-scala-part-5-the-option-type.html">Here</a> is
-                    good guide.</p>
+                    good guide.
 
