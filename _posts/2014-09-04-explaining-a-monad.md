@@ -1,41 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>
-        Ian is at work
-    </title>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css">
-    <link href="/assets/css/content.css" rel="stylesheet" type="text/css">
-    <link href="/assets/css/highlight.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-<div class="container">
-    <div class="row">
-        <div class="span12">
-            <div id="header">
-                Ian is at work
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="span12">
-            <div id="menu">
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li class="active"><a href="/blogs.html">Blog</a></li>
-                    <!--	<li>Algorithms</li>		-->
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="span8">
-            <div id="content">
-                <p>
+---
+layout: post
+title:  "Explaining a Monad"
+date:   2014-09-04 16:16:01 +0000
+categories: jekyll update
+---
+                
                 <h1 id="explaining-a-monad-in-10-steps">Explaining a monad in 10 steps</h1>
 
                 <p>wibble</p>
@@ -175,38 +144,3 @@ h: X -&gt; Z
                     able to think of itself as a collection with either one value or empty. <a href="http://danielwestheide.com/blog/2012/12/19/the-neophytes-guide-to-scala-part-5-the-option-type.html">Here</a> is
                     good guide.</p>
 
-
-                </p>
-            </div>
-
-        </div>
-
-        <div class="span4">
-            <div id="posts">
-                <h2>
-                    Recent Posts
-                </h2>
-                <ul class="posts">
-                    <li style="list-style: none">
-                    </li>
-                    <li>
-                        <span>04 Sep 2014</span> » <a href="/2014/09/04/explaining-a-monad.html">Explaining A Monad</a>
-                    </li>
-                    <li style="list-style: none">
-                    </li>
-                </ul>
-                <a href="/blogs.html">All Blogs</a>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="span12">
-            <div id="footer">
-                <span>email: ian.j.morgan@gmail.com</span>
-                <span>github: github.com/ianmorgan</span>
-            </div>
-        </div>
-    </div>
-</div>
-</body>
-</html>
