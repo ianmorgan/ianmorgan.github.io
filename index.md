@@ -11,6 +11,8 @@ Dig around to view links to tech things I've cared about,
 worried about, would like to more about, or just been really 
 annoyed by. 
 
+* [Useful Stuff](https://ianmorgan.github.io/useful-stuff) - a little micro site where I keep track of the useful 
+little articles, blogs links and so on that I come across.  
 * [Doc Store](https://ianmorgan.github.io/doc-store/) - trying things out with Kotlin and GraphQL to unify a some 
 common concepts in a single service
 * [Event Store](https://ianmorgan.github.io/event-store/) - a bare bones event store to support basic event sourcing concepts 
