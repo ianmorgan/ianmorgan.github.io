@@ -1,3 +1,3 @@
-The www.handmadedata.com website
+The https://ianmorgan.github.io/ website
 
 built using Jekyll 
