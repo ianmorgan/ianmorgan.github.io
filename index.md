@@ -18,7 +18,7 @@ little articles, blogs links and so on that I come across.
 * [Event Store](https://ianmorgan.github.io/event-store/) - a bare bones event store to support basic event sourcing concepts 
 I'm hoping to find time to write variants using different backends, including MySQL and Kafka 
 
-My [CV](pdfs/IanMorganCV.pdf) and [Linkedn](https://www.linkedin.com/in/ianjmorgan/)
+My [CV](pdfs/IanMorganCVJune2018.pdf) and [LinkedIn](https://www.linkedin.com/in/ianjmorgan/)
 
 # Blogs
 
