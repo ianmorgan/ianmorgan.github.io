@@ -14,10 +14,11 @@ annoyed by.
 * [Useful Stuff](https://ianmorgan.github.io/useful-stuff) - a little micro site where I keep track of the useful 
 little articles, blogs links and so on that I come across.  
 * [Graph Store](https://ianmorgan.github.io/graph-store/) - trying things out with Kotlin and GraphQL to unify a some 
-common concepts in a single service
+common concepts in a single service. There is also a [running service](https://grapstore.app) as a simple demo 
 * [Event Store](https://ianmorgan.github.io/event-store/) - a bare bones event store to support basic event sourcing concepts 
 I'm hoping to find time to write variants using different backends, including MySQL and Kafka 
 
+[CV](pdfs/IanMorganCV.pdf)
 <!--
 * [Mircoservices](content/microservices) -
 -->
